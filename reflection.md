@@ -1,11 +1,125 @@
 # PawPal+ Project Reflection
 
 ## 1. System Design
+- Three core actions a user should be able to perform:
+  - Add a pet to the list
+  - Allow the pet owner to mark tasks as done per pet
+  - Allow the pet owner to schedule times when tasks can be completed
 
+- Main objects needed for the system:
+  - Owner
+    - Pet(s)
+    - Time Constraints
+    - Plan(s)
+  - Pet
+    - Tasks List
+  - Tasks
+    - Type
+    - Priority
+    - Time for task
+  - Plan(s)
+    - Owner
+    
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+  - The initial UML design was based on a productive discussion with Claude AI that was initially provided with the `Main objects needed for the system` from above. It then went through a few iterations to drill down and find a UML that makes sense for this scenario. 
 - What classes did you include, and what responsibilities did you assign to each?
+  - The initial discussion with Claude AI was provided with the following classes: 
+    - owner
+    - pet
+    - tasks
+    - plan(s)
+  - Through a discussion about the application and some back and forth on the UML design revealed a better structure that makes sense. The finalized list of classes is: 
+    - owner
+    - plan
+    - pet
+    - task
+    - timeconstraint
+    - tasktype
+    - priority
+    - taskstatus
+    
+```mermaid
+classDiagram
+    class Owner {
+        +String id
+        +String name
+        +String email
+        +List~Pet~ pets
+        +List~Plan~ plans
+        +List~TimeConstraint~ timeConstraints
+    }
+
+    class Plan {
+        +String id
+        +String name
+        +Date startDate
+        +Date endDate
+        +List~Pet~ pets
+    }
+
+    class Pet {
+        +String id
+        +String name
+        +String species
+        +String breed
+        +Date birthDate
+        +List~Task~ taskList
+    }
+
+    class Task {
+        +String id
+        +TaskType type
+        +Priority priority
+        +Duration timeForTask
+        +String description
+        +TaskStatus status
+        +Date dueDate
+    }
+
+    class TimeConstraint {
+        +String dayOfWeek
+        +Time startTime
+        +Time endTime
+    }
+
+    class TaskType {
+        <<enumeration>>
+        FEEDING
+        GROOMING
+        EXERCISE
+        VET_VISIT
+        MEDICATION
+        TRAINING
+        OTHER
+    }
+
+    class Priority {
+        <<enumeration>>
+        LOW
+        MEDIUM
+        HIGH
+        URGENT
+    }
+
+    class TaskStatus {
+        <<enumeration>>
+        PENDING
+        IN_PROGRESS
+        COMPLETED
+        SKIPPED
+    }
+
+    Owner "1" --> "0..*" Pet : owns
+    Owner "1" --> "0..*" Plan : creates
+    Owner "1" --> "0..*" TimeConstraint : has availability
+    Plan "1" --> "0..*" Pet : covers
+    Pet "1" --> "0..*" Task : has
+    Task --> TaskType : categorized by
+    Task --> Priority : ranked by
+    Task --> TaskStatus : tracked by
+```
 
 **b. Design changes**
 

@@ -98,18 +98,22 @@ class Plan:
     name: str
     start_date: date
     end_date: date
-    pets: list[Pet] = field(default_factory=list)
+    pet_ids: list[str] = field(default_factory=list)
 
-    def add_pet(self, pet: Pet) -> None:
-        """Add a pet to this plan."""
+    def add_pet(self, pet_id: str) -> None:
+        """Add a pet by id to this plan."""
         pass
 
     def remove_pet(self, pet_id: str) -> None:
         """Remove a pet by id from this plan."""
         pass
 
-    def get_all_tasks(self) -> list[Task]:
-        """Return all tasks across every pet in this plan."""
+    def get_all_tasks(self, pet_lookup: dict[str, Pet]) -> list[Task]:
+        """Return all tasks across every pet in this plan.
+
+        Args:
+            pet_lookup: mapping of pet_id -> Pet, sourced from Owner.pets.
+        """
         return []
 
 

@@ -56,7 +56,7 @@ classDiagram
         +String name
         +Date startDate
         +Date endDate
-        +List~Pet~ pets
+        +List~String~ petIds
     }
 
     class Pet {
@@ -114,7 +114,7 @@ classDiagram
     Owner "1" --> "0..*" Pet : owns
     Owner "1" --> "0..*" Plan : creates
     Owner "1" --> "0..*" TimeConstraint : has availability
-    Plan "1" --> "0..*" Pet : covers
+    Plan "1" ..> "0..*" Pet : references by id
     Pet "1" --> "0..*" Task : has
     Task --> TaskType : categorized by
     Task --> Priority : ranked by
@@ -124,7 +124,9 @@ classDiagram
 **b. Design changes**
 
 - Did your design change during implementation?
+  - Yes, during the discussion with Claude the design changed by better refining the connections between classes.
 - If yes, describe at least one change and why you made it.
+  - The major change was to no longer provide a list of Pet classes to the Plan class, but rather provide it only the list of `pet_ids`. This requires it to now look up all of the owners pets to find the plans. 
 
 ---
 

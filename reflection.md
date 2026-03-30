@@ -49,6 +49,7 @@ classDiagram
         +List~Pet~ pets
         +List~Plan~ plans
         +List~TimeConstraint~ timeConstraints
+        +get_all_tasks() List~Task~
     }
 
     class Plan {
@@ -72,6 +73,7 @@ classDiagram
         +String id
         +TaskType type
         +Priority priority
+        +Frequency frequency
         +Duration timeForTask
         +String description
         +TaskStatus status
@@ -111,6 +113,23 @@ classDiagram
         SKIPPED
     }
 
+    class Frequency {
+        <<enumeration>>
+        ONCE
+        DAILY
+        WEEKLY
+        MONTHLY
+    }
+
+    class Scheduler {
+        +Owner owner
+        +get_all_tasks() List~Task~
+        +get_pending_tasks() List~Task~
+        +get_tasks_by_priority() List~Task~
+        +get_tasks_by_pet() Dict~str_List~Task~~
+        +schedule() List~Task~
+    }
+
     Owner "1" --> "0..*" Pet : owns
     Owner "1" --> "0..*" Plan : creates
     Owner "1" --> "0..*" TimeConstraint : has availability
@@ -119,6 +138,8 @@ classDiagram
     Task --> TaskType : categorized by
     Task --> Priority : ranked by
     Task --> TaskStatus : tracked by
+    Task --> Frequency : repeats by
+    Scheduler --> Owner : manages
 ```
 
 **b. Design changes**

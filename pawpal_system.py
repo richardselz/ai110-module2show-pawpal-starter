@@ -30,6 +30,13 @@ class TaskStatus(Enum):
     SKIPPED = "skipped"
 
 
+class Frequency(Enum):
+    ONCE = "once"
+    DAILY = "daily"
+    WEEKLY = "weekly"
+    MONTHLY = "monthly"
+
+
 # --- Dataclasses ---
 
 @dataclass
@@ -50,6 +57,7 @@ class Task:
     priority: Priority
     time_for_task: timedelta
     description: str
+    frequency: Frequency = Frequency.ONCE
     status: TaskStatus = TaskStatus.PENDING
     due_date: date | None = None
 
@@ -144,4 +152,33 @@ class Owner:
 
     def get_available_times(self, day_of_week: str) -> list[TimeConstraint]:
         """Return all time constraints for a given day."""
+        return []
+
+    def get_all_tasks(self) -> list[Task]:
+        """Return a flat list of all tasks across all owned pets."""
+        return []
+
+
+@dataclass
+class Scheduler:
+    owner: Owner
+
+    def get_all_tasks(self) -> list[Task]:
+        """Retrieve a flat list of every task across all of the owner's pets."""
+        return []
+
+    def get_pending_tasks(self) -> list[Task]:
+        """Return only tasks with PENDING status."""
+        return []
+
+    def get_tasks_by_priority(self) -> list[Task]:
+        """Return all pending tasks sorted by priority descending (URGENT first)."""
+        return []
+
+    def get_tasks_by_pet(self) -> dict[str, list[Task]]:
+        """Return tasks grouped by pet name."""
+        return {}
+
+    def schedule(self) -> list[Task]:
+        """Build an ordered task schedule respecting owner time constraints and priority."""
         return []

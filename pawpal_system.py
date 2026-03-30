@@ -67,7 +67,7 @@ class Task:
 
     def complete(self) -> None:
         """Mark this task as completed."""
-        pass
+        self.status = TaskStatus.COMPLETED
 
     def skip(self) -> None:
         """Mark this task as skipped."""
@@ -85,7 +85,7 @@ class Pet:
 
     def add_task(self, task: Task) -> None:
         """Add a task to this pet's task list."""
-        pass
+        self.task_list.append(task)
 
     def remove_task(self, task_id: str) -> None:
         """Remove a task by id from this pet's task list."""
@@ -117,11 +117,7 @@ class Plan:
         pass
 
     def get_all_tasks(self, pet_lookup: dict[str, Pet]) -> list[Task]:
-        """Return all tasks across every pet in this plan.
-
-        Args:
-            pet_lookup: mapping of pet_id -> Pet, sourced from Owner.pets.
-        """
+        """Return all tasks across every pet in this plan using a pet_id-to-Pet lookup dict."""
         return []
 
 

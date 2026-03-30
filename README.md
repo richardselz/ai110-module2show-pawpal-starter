@@ -41,3 +41,12 @@ pip install -r requirements.txt
 5. Add tests to verify key behaviors.
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
+
+### Testing PawPal+
+`python -m pytest`
+Confidence Level: 4 Stars
+1. Pet Management — Owners can add, retrieve, and remove pets of any species without affecting one another.
+2. Task Visibility — Tasks added to any pet are always fully visible and correctly isolated to their own pet.
+3. Priority & Sorting — Tasks sort correctly by urgency and by scheduled time, with completed tasks excluded.
+4. Conflict Detection — Overlapping or duplicate scheduled times are flagged; non-overlapping times are not.
+5. Recurrence & Status — Recurring tasks spawn the correct next occurrence when completed; one-off tasks do not.

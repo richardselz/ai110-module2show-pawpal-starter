@@ -1,0 +1,121 @@
+classDiagram
+    class Owner {
+        +String id
+        +String name
+        +String email
+        +List~Pet~ pets
+        +List~Plan~ plans
+        +List~TimeConstraint~ timeConstraints
+        +add_pet(pet: Pet) None
+        +remove_pet(pet_id: String) None
+        +add_plan(plan: Plan) None
+        +add_time_constraint(constraint: TimeConstraint) None
+        +get_available_times(day_of_week: String) List~TimeConstraint~
+        +get_all_tasks() List~Task~
+    }
+
+    class Plan {
+        +String id
+        +String name
+        +Date startDate
+        +Date endDate
+        +List~String~ petIds
+        +add_pet(pet_id: String) None
+        +remove_pet(pet_id: String) None
+        +get_all_tasks(pet_lookup: Dict) List~Task~
+    }
+
+    class Pet {
+        +String id
+        +String name
+        +String species
+        +String breed
+        +Date birthDate
+        +List~Task~ taskList
+        +add_task(task: Task) None
+        +remove_task(task_id: String) None
+        +get_pending_tasks() List~Task~
+        +get_tasks_by_priority() List~Task~
+    }
+
+    class Task {
+        +String id
+        +TaskType type
+        +Priority priority
+        +Frequency frequency
+        +Duration timeForTask
+        +String description
+        +TaskStatus status
+        +Date dueDate
+        +String scheduledTime
+        +start() None
+        +complete() None
+        +skip() None
+        +next_due_date() Date
+    }
+
+    class TimeConstraint {
+        +String dayOfWeek
+        +Time startTime
+        +Time endTime
+        +is_available(check_time: Time) bool
+    }
+
+    class Scheduler {
+        +Owner owner
+        +get_all_tasks() List~Task~
+        +get_pending_tasks() List~Task~
+        +get_tasks_by_priority() List~Task~
+        +get_tasks_by_pet() Dict~str_List~Task~~
+        +sort_by_time(tasks: List~Task~) List~Task~
+        +filter_tasks(pet_name: String, status: TaskStatus) List~Task~
+        +complete_task(task: Task, pet: Pet) Task
+        +detect_conflicts(tasks: List~Task~) List~String~
+        +schedule() List~Task~
+    }
+
+    class TaskType {
+        <<enumeration>>
+        FEEDING
+        GROOMING
+        EXERCISE
+        VET_VISIT
+        MEDICATION
+        TRAINING
+        OTHER
+    }
+
+    class Priority {
+        <<enumeration>>
+        LOW
+        MEDIUM
+        HIGH
+        URGENT
+    }
+
+    class TaskStatus {
+        <<enumeration>>
+        PENDING
+        IN_PROGRESS
+        COMPLETED
+        SKIPPED
+    }
+
+    class Frequency {
+        <<enumeration>>
+        ONCE
+        DAILY
+        WEEKLY
+        MONTHLY
+    }
+
+    Owner "1" --> "0..*" Pet : owns
+    Owner "1" --> "0..*" Plan : creates
+    Owner "1" --> "0..*" TimeConstraint : has availability
+    Plan "1" ..> "0..*" Pet : references by id
+    Pet "1" --> "0..*" Task : has
+    Task --> TaskType : categorized by
+    Task --> Priority : ranked by
+    Task --> TaskStatus : tracked by
+    Task --> Frequency : repeats by
+    Scheduler "1" --> "1" Owner : manages

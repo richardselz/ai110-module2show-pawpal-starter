@@ -156,12 +156,22 @@ classDiagram
 **a. Constraints and priorities**
 
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
+  - 
 - How did you decide which constraints mattered most?
-
+  - I let Claude do the heavy lifting to decide what should be implemented during the discussion about implementation. If the constraints made sense then I allowed it to udpate the code.
 **b. Tradeoffs**
-
+| | Current | Better |
+|---|---|---|
+| Setup work | None | Must sort first |
+| Comparison work | Always checks everything | Stops early |
+| Best case (no conflicts) | Still does all the work | Stops almost immediately after each card |
+| Worst case (everything conflicts) | Slow | About the same |
+| Sweet spot | Small lists where sorting feels wasteful | Any real schedule where most tasks don't overlap |
+(via Claude, Anthropic)
 - Describe one tradeoff your scheduler makes.
+  - The scheduler initially had to look over all tasks and search for conflicts. The new solution sorts all of the tasks and then looks for conflicts in a smaller space.
 - Why is that tradeoff reasonable for this scenario?
+  - Yes, this tradeoff appears to benefit performance while also not jeopardizing usefulness.
 
 ---
 
